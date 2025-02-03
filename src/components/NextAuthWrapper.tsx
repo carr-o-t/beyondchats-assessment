@@ -11,7 +11,9 @@ export const NextAuthWrapper = ({
     return (
         <SessionProvider>
             {/* <Navbar /> */}
+            <div className="w-full h-full p-4">
             {children}
+            </div>
         </SessionProvider>
     )
 }

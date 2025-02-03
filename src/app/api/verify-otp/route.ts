@@ -37,7 +37,7 @@ export async function POST(req: Request) {
       data: { isActive: true, otp: null, otpExpires: null },
     });
 
-    // redirect("/chatbot-integration");
+    // redirect("/setup-organisation");
 
     // ✅ Force session refresh after email verification
     const session = await getServerSession(authOptions);
