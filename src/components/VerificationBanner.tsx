@@ -1,6 +1,5 @@
-import { User } from "next-auth";
-import { Alert, AlertDescription, AlertTitle } from "./ui/Alert";
 import { Terminal } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "./ui/Alert";
 
 interface VerificationBannerProps extends React.HTMLAttributes<HTMLDivElement> {
     isActive: boolean;

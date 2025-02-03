@@ -6,7 +6,6 @@ import { loginSchema } from "@/lib/validations/auth";
 import { Types } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -23,7 +22,6 @@ const LoginForm = () => {
     },
   });
 
-  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 

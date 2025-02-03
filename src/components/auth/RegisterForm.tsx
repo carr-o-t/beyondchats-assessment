@@ -1,19 +1,18 @@
 "use client";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form";
+import { registerUser } from "@/lib/api/auth";
 import { registerSchema } from "@/lib/validations/auth";
 import { Types } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import { AuthWrapper } from "./AuthWrapper";
-import { useState } from "react";
-import { registerUser } from "@/lib/api/auth";
-import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
-import VerifyEmailForm from "./VerifyEmailForm";
-import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
   const form = useForm<Types.registerFormType>({
@@ -27,13 +26,11 @@ const RegisterForm = () => {
 
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [isOtpSent, setIsOtpSent] = useState(false);
 
   const handleRegister = async (formData: Types.registerFormType) => {
     try {
       setIsLoading(true);
       const result = await registerUser(formData);
-      setIsOtpSent(true);
       toast.success("Registration successful.", {
         description: "Please check your email for the verification code.",
       });
