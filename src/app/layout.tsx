@@ -9,6 +9,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -60,19 +61,19 @@ export default async function RootLayout({
 
   if (session?.user && session?.user.isActive && pathname?.includes("verify-email")) {
     console.log("hello 23");
-     redirect("/chatbot-integration");
+     redirect("/setup-organisation");
   }
 
   if(session && isAuthRoute){
     console.log("hello 20");
-    redirect("/chatbot-integration");
+    redirect("/setup-organisation");
   }
 
   console.log("hello 24");
 
-  // If user is active, proceed to chatbot-integration
+  // If user is active, proceed to setup-organisation
   // if (session.user && session.user.isActive) {
-  //   return redirect("/chatbot-integration");
+  //   return redirect("/setup-organisation");
   // }
 
   return (
@@ -80,7 +81,13 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar />
+         <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+ <Navbar />
         {
           !isAuthRoute && !pathname?.includes("verify-email") && <VerificationBanner isActive={session?.user.isActive || false} />
         }
@@ -90,6 +97,8 @@ export default async function RootLayout({
         <Toaster richColors position="top-center" duration={2000} />
         </>
         </NextAuthWrapper>
+          </ThemeProvider>
+       
       </body>
     </html>
   );

@@ -39,7 +39,7 @@ const VerifyEmailForm = ({ session, email }: { session: Session | null, email?: 
 
 
       // Redirect user to dashboard or any other page after successful OTP verification
-      router.push("/chatbot-integration");
+      router.push("/setup-organisation");
       console.log("hello 6")
     } catch (error: any) {
       toast.error("OTP verification failed.", { description: error.message });

@@ -32,7 +32,7 @@ const LoginForm = () => {
       toast.success("Sign in successful.", {
       });
       console.log("login befire:", result);
-      window.location.href = "/chatbot-integration";
+      window.location.href = "/setup-organisation";
       console.log("login successful:", result);
     } catch (error: any) {
       toast.error("Sign in failed.", { description: error.message });
