@@ -1,5 +1,7 @@
 # BeyondChats Assessment - Authentication & Email Verification Flow
 
+# Live Link: https://beyondchats-assessment-652pmitza-carrots-projects-20c95ccf.vercel.app/login
+
 ## Overview
 
 This project focuses on user registration, email verification, login functionality (both via credentials and Google), and chatbot integration. The following features have been implemented:
