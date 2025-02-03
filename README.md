@@ -117,7 +117,7 @@ bcryptjs: Used for hashing passwords.
 
 ---
 
-This README should cover all the aspects of your application flow and setup instructions in a concise and organized manner. Feel free to adjust any project-specific details! 😊
+This README should cover all the aspects of your application flow and setup instructions in a concise and organized manner.
 
 
 
