@@ -1,7 +1,7 @@
 # BeyondChats Assessment - Authentication & Email Verification Flow
 
 ## Live Link: 
-https://beyondchats-assessment-652pmitza-carrots-projects-20c95ccf.vercel.app/login
+https://beyondchats-assessment.vercel.app/login
 
 ## Overview
 
