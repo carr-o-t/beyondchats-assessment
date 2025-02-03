@@ -1,0 +1,5 @@
+1. Implement email sign up and login using Next-auth - done
+2. Authorisation/Middleware - done
+3. Google login(at the end) - 
+4. Register org form - 
+5. 
