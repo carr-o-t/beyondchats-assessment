@@ -1,7 +1,6 @@
 "use client"
 
-import { SessionProvider } from "next-auth/react"
-import Navbar from "./Navbar";
+import { SessionProvider } from "next-auth/react";
 
 
 export const NextAuthWrapper = ({
