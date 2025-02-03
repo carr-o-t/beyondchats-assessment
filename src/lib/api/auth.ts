@@ -1,4 +1,5 @@
 import { Types } from "@/types";
+import { signIn } from "next-auth/react";
 
 export const registerUser = async (data: Types.registerFormType) => {
     try {
@@ -23,6 +24,34 @@ export const registerUser = async (data: Types.registerFormType) => {
         throw error; // This will rethrow the error to be handled elsewhere
       }
   };
+
+  export const loginUser = async (data: { email: string; password: string }) => {
+    try {
+      const response = await signIn("credentials", {
+        redirect: false, // Prevents automatic redirection
+        email: data.email,
+        password: data.password,
+      });
+
+      console.log("hello 1")
+  
+      if (!response) {
+        throw new Error("No response from server. Please try again.");
+      }
+      console.log("hello 2", response)
+  
+      if (response.error) {
+        throw new Error(response.error); // Throw the error message from NextAuth
+      }
+
+      console.log("hello 3")
+  
+      return response;
+    } catch (error) {
+      console.error("Login error:", error);
+      throw error; // This will rethrow the error to be handled elsewhere
+    }
+  };
   
   export const resendOtp = async (email: string) => {
     try {
@@ -42,7 +71,8 @@ export const registerUser = async (data: Types.registerFormType) => {
       throw error;
     }
   };
-  
+
+
   export const verifyOtp = async (email: string, otp: string) => {
     try {
       const response = await fetch("/api/verify-otp", {
@@ -50,15 +80,14 @@ export const registerUser = async (data: Types.registerFormType) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }),
       });
-  
       if (!response.ok) {
-        throw new Error("Invalid or expired OTP");
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.error || "OTP verification failed.");
       }
-  
-      return await response.json();
+      return await response.json(); // Return the response if OTP is verified successfully
     } catch (error) {
       console.error("OTP verification error:", error);
-      throw error;
+      throw error; // Re-throw error to be handled in UI
     }
   };
   

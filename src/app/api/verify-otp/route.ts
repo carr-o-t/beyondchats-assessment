@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function POST(req: Request) {
   try {
@@ -16,18 +19,12 @@ export async function POST(req: Request) {
 
     // 2️⃣ Check if user is already active
     if (user.isActive) {
-        return NextResponse.json({ error: "User is already verified. No need to resend OTP." }, { status: 400 });
-      }
-
-    // 3️⃣ Check if OTP exists and is still valid
-    if (!user.otp || !user.otpExpires) {
-      return NextResponse.json({ error: "OTP not found or expired. Please request a new one." }, { status: 400 });
+      return NextResponse.json({ error: "User is already verified. No need to resend OTP." }, { status: 400 });
     }
 
-    const now = new Date();
-
-    if (now > user.otpExpires) {
-      return NextResponse.json({ error: "OTP expired. Please request a new one." }, { status: 400 });
+    // 3️⃣ Check if OTP exists and is still valid
+    if (!user.otp ) {
+      return NextResponse.json({ error: "OTP not found or expired. Please request a new one." }, { status: 400 });
     }
 
     // 4️⃣ Check if OTP is incorrect
@@ -40,6 +37,12 @@ export async function POST(req: Request) {
       where: { email },
       data: { isActive: true, otp: null, otpExpires: null },
     });
+
+    // redirect("/chatbot-integration");
+
+    // ✅ Force session refresh after email verification
+    const session = await getServerSession(authOptions);
+    session!.user.isActive = true; // ✅ Ensure session is updated
 
     return NextResponse.json({ message: "Email verified successfully" });
 

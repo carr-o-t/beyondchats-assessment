@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import {prisma} from "@/lib/prisma";
 import { sendVerificationEmail } from "@/lib/email";
 
 export async function POST(req: Request) {
@@ -17,12 +17,11 @@ export async function POST(req: Request) {
 
     // 2️⃣ Generate new OTP and expiry
     const newOtp = Math.floor(1000 + Math.random() * 9000).toString();
-    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // Expires in 10 minutes
 
     // 3️⃣ Save new OTP to database
     await prisma.user.update({
       where: { email },
-      data: { otp: newOtp, otpExpires },
+      data: { otp: newOtp, otpExpires: null },
     });
 
     // 4️⃣ Send OTP email

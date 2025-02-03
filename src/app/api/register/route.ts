@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import {prisma} from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "@/lib/email";
 
@@ -20,7 +20,6 @@ export async function POST(req: Request) {
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const otp = Math.floor(1000 + Math.random() * 9000).toString();
-  const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
 
   const user = await prisma.user.create({
     data: {
@@ -28,7 +27,7 @@ export async function POST(req: Request) {
       email,
       password: hashedPassword,
       otp,
-      otpExpires,
+      otpExpires: null,
     },
   });
 

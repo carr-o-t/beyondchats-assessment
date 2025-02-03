@@ -13,6 +13,7 @@ import { registerUser } from "@/lib/api/auth";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import VerifyEmailForm from "./VerifyEmailForm";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
   const form = useForm<Types.registerFormType>({
@@ -24,9 +25,9 @@ const RegisterForm = () => {
     },
   });
 
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isOtpSent, setIsOtpSent] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleRegister = async (formData: Types.registerFormType) => {
     try {
@@ -37,8 +38,8 @@ const RegisterForm = () => {
         description: "Please check your email for the verification code.",
       });
       console.log("Registration successful:", result);
+      router.push("/login")
     } catch (error: any) {
-      setError(error.message);
       toast.error("Registration failed.", { description: error.message });
     } finally {
       setIsLoading(false);
@@ -47,82 +48,66 @@ const RegisterForm = () => {
 
 
   return (
-         <AnimatePresence mode="wait">
-         {
-           !isOtpSent ? (
-               <motion.div
+    <AnimatePresence mode="wait">
+          <motion.div
             key="register-form"
             initial={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-           className="flex justify-center items-center min-h-screen w-full"
+            className="flex justify-center items-center min-h-screen w-full"
           >
             <AuthWrapper title="Create an account" subheader="Sign up to continue">
-            <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleRegister)} className="space-y-4 w-full max-w-md">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full" isLoading={isLoading}>
-                Continue
-              </Button>
-            </form>
-          </Form>
-          </AuthWrapper>
-            </motion.div>
-            
-        ): (
-<motion.div
-              key="verify-email-form"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
-              className="flex justify-center items-center min-h-screen w-full"
-            >
-                <AuthWrapper title="Verify your email" subheader="Enter the OTP sent to your email" showFooter={false}>
-              <VerifyEmailForm />
-              </AuthWrapper>
-            </motion.div>
-        )
-       }
-         </AnimatePresence>
-      
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(handleRegister)} className="space-y-4 w-full max-w-md">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input type="password" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" className="w-full" isLoading={isLoading}>
+                    Continue
+                  </Button>
+                </form>
+              </Form>
+            </AuthWrapper>
+          </motion.div>
+
+    </AnimatePresence>
+
   );
 };
 
